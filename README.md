@@ -27,5 +27,5 @@ Site de tarefas diárias (segunda a sexta) com carteira virtual e loja.
 
 - No celular, abra o link e use "Adicionar à tela inicial" para virar um app.
 - Se o repositório for público, qualquer pessoa vê a URL do Apps Script e o ID da planilha. Use um repositório privado (Pages privado exige plano pago) ou aceite que a proteção é a senha de cada conta.
-- Contas iniciais: Cesar (azul), Arthur (verde), Ericky (branco, PIN `1313`).
+- Contas iniciais: Cesar (azul), Arthur (verde), Ericky (branco). Os três criam o padrão de desenho e a foto no primeiro acesso. Se a conta do Ericky já existia com o PIN antigo, rode `resetarSenhaEricky` uma vez no Apps Script.
 - Recompensa por atividade aprovada: constante `RECOMPENSA` no `Code.gs`.

@@ -27,8 +27,15 @@ function setup() {
   if (u.getLastRow() === 1) {
     u.appendRow(['cesar', 'Cesar', 'pattern', '#3b82f6', '', '']);
     u.appendRow(['arthur', 'Arthur', 'pattern', '#22c55e', '', '']);
-    u.appendRow(['ericky', 'Ericky', 'admin', '#ffffff', hash('1313'), '']);
+    // Ericky também usa padrão de desenho: hash vazio = ele cria no primeiro acesso
+    u.appendRow(['ericky', 'Ericky', 'admin', '#ffffff', '', '']);
   }
+}
+
+// Rode UMA vez se a conta do Ericky já foi criada com o PIN antigo (1313):
+// limpa a senha e a foto para ele criar o padrão de desenho no próximo acesso.
+function resetarSenhaEricky() {
+  atualizarLinha('usuarios', 'ericky', { hash: '', foto: '' });
 }
 
 function doGet() {
