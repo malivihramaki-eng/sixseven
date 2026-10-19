@@ -75,22 +75,83 @@ audio{width:100%;margin:8px 0}
 .grande .valor{font-size:44px;font-weight:700}
 #toast{position:fixed;left:50%;top:14px;transform:translate(-50%,-160%);background:#fff;color:#111;padding:12px 18px;border-radius:14px;font-size:18px;transition:.3s;z-index:9;max-width:92vw;text-align:center}
 #toast.on{transform:translate(-50%,0)}
+
+/* ===== VISUAL V2: brilho, vidro, animações ===== */
+:root{--glow:color-mix(in srgb,var(--acc) 38%,transparent);--borda:color-mix(in srgb,var(--acc) 18%,#2a313d)}
+body{background:radial-gradient(120% 55% at 50% -8%,color-mix(in srgb,var(--acc) 22%,transparent),transparent 62%) fixed,var(--bg)}
+.card,.item{border:1px solid var(--borda);background:linear-gradient(180deg,#1b212b,#161b23);box-shadow:0 8px 24px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.05)}
+.pessoa{background:linear-gradient(180deg,#1b212b,#161b23);box-shadow:0 8px 24px rgba(0,0,0,.35);transition:transform .2s,box-shadow .2s;animation:sobe .5s both;animation-delay:calc(var(--i,0)*90ms)}
+.pessoa:hover,.pessoa:active{transform:translateY(-3px) scale(1.015);box-shadow:0 0 30px color-mix(in srgb,var(--c) 45%,transparent)}
+.avatar{box-shadow:0 0 0 4px rgba(255,255,255,.04),0 0 22px var(--glow)}
+.titulo{letter-spacing:.5px;text-shadow:0 0 24px var(--glow)}
+@keyframes sobe{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+@keyframes treme{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+@keyframes brilho{0%,100%{box-shadow:0 0 0 0 var(--glow)}50%{box-shadow:0 0 0 9px transparent}}
+@keyframes desenha{to{stroke-dashoffset:0}}
+.entra>*{animation:sobe .45s cubic-bezier(.2,.8,.2,1) both}
+.entra>*:nth-child(2){animation-delay:.06s}.entra>*:nth-child(3){animation-delay:.12s}
+.entra>*:nth-child(4){animation-delay:.18s}.entra>*:nth-child(5){animation-delay:.24s}
+.card.centro>div[style*="font-size:70px"]{animation:pop .6s both}
+.btn,.mini-btn,.rec-btn,.teclado button{transition:transform .12s,filter .2s,box-shadow .2s}
+.btn:active,.mini-btn:active,.rec-btn:active,.teclado button:active{transform:scale(.94)}
+.btn:hover,.mini-btn:hover{filter:brightness(1.1)}
+.btn{box-shadow:0 6px 22px var(--glow)}
+.btn.ok{box-shadow:0 6px 22px rgba(34,197,94,.4)}
+.btn.no{box-shadow:0 6px 22px rgba(239,68,68,.4)}
+.teclado button:active{background:var(--acc);color:var(--acc-txt)}
+.rec-btn{box-shadow:0 0 0 6px var(--glow)}
+.rec-btn.rec{box-shadow:0 0 0 10px rgba(239,68,68,.3)}
+.foto-grande{transition:border-color .2s,background .2s}
+.foto-grande:active{border-color:var(--acc);background:rgba(255,255,255,.03)}
+.item{transition:transform .15s}.item:active{transform:scale(.98)}
+.topo .saldo{background:color-mix(in srgb,var(--acc) 18%,transparent);padding:8px 14px;border-radius:99px;border:1px solid var(--borda)}
+.topo .saldo.sobe{animation:pop .5s}
+.tabs{background:rgba(17,21,28,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.tabs button{position:relative;transition:opacity .2s,transform .2s}
+.tabs button.on{transform:translateY(-2px);filter:drop-shadow(0 0 8px var(--glow))}
+.badge{position:absolute;top:4px;left:calc(50% + 10px);background:var(--bad);color:#fff;font-size:12px;font-weight:700;border-radius:99px;min-width:20px;padding:2px 6px;animation:pop .4s}
+#toast{background:rgba(30,36,46,.96);color:#fff;border:1px solid var(--borda);backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.5)}
+#carga{position:fixed;top:0;left:0;height:3px;width:0;opacity:0;background:var(--acc);box-shadow:0 0 10px var(--acc);transition:width .8s,opacity .3s;z-index:10}
+#confete{position:fixed;inset:0;pointer-events:none;z-index:20}
+.grade{position:relative}
+.grade svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.grade svg polyline{fill:none;stroke:var(--acc);stroke-width:6;stroke-linecap:round;stroke-linejoin:round;opacity:.65}
+.ponto{box-shadow:inset 0 0 0 2px rgba(255,255,255,.07)}
+.ponto.on{box-shadow:0 0 26px var(--glow)}
+.grade.erro{animation:treme .45s}
+.grade.erro .ponto{background:var(--bad)}
+.semana{display:flex;gap:6px;margin:14px 0}
+.sem{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0;border-radius:16px;background:#12161d;border:1px solid var(--linha);font-size:24px}
+.sem small{font-size:13px;color:var(--mut);font-weight:700}
+.sem.hoje{border-color:var(--acc);animation:brilho 2s infinite}
+.linha .pos,.dia .pos{color:var(--ok)}
+.linha .neg,.dia .neg{color:#f87171}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.tile{background:#12161d;border:1px solid var(--linha);border-radius:16px;padding:10px 4px;text-align:center;font-size:26px}
+.tile b{display:block;font-size:24px}
+.tile small{display:block;font-size:13px;color:var(--mut)}
+.grafico .ma{stroke-dasharray:1000;stroke-dashoffset:1000;animation:desenha 1.2s .2s forwards}
+.grafico circle{animation:pop .4s both;transform-box:fill-box;transform-origin:center}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.grafico .ma{stroke-dashoffset:0}}
 </style>
 </head>
 <body>
 <div id="app"><div class="card centro">⏳ Carregando...</div></div>
+<div id="carga"></div>
+<canvas id="confete"></canvas>
 <div id="toast"></div>
 
 <script>
 /* ===== CONFIG ===== */
-const API = 'COLE_AQUI_A_URL_DO_APPS_SCRIPT';
+const API = 'https://script.google.com/macros/s/AKfycbyU52uWZeRoo2uKbpgVy7LLMn0BJF7MZE3KWd4aIEgC7zr-xZs082mlHKugip41MJv_Fg/exec';
 
 /* ===== ESTADO ===== */
 const $ = s => document.querySelector(s);
 const app = $('#app');
 const S = { usuarios: [], escolhido: null, user: null, hash: null, dados: null, aba: 'inicio',
   entrada: '', passo: 1, p1: null, fotoB64: null, fotoPrev: null, form: { descricao: '' },
-  gravando: false, rec: null, notas: {}, toqueKey: null };
+  gravando: false, rec: null, notas: {}, toqueKey: null, anim: true, saldoAnt: null, shake: false, checar: false };
 
 /* ===== HELPERS ===== */
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -145,14 +206,98 @@ function avatar(u, tam = 96) {
 }
 
 async function api(acao, extra = {}) {
-  const res = await fetch(API, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({ acao, user: S.user, hash: S.hash, ...extra }),
-  });
-  const j = await res.json();
-  if (!j.ok) throw new Error(j.erro || 'Erro');
-  return j;
+  carga(true);
+  try {
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ acao, user: S.user, hash: S.hash, ...extra }),
+    });
+    const j = await res.json();
+    if (!j.ok) throw new Error(j.erro || 'Erro');
+    return j;
+  } finally {
+    carga(false);
+  }
+}
+
+/* ===== EFEITOS ===== */
+const vibrar = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
+document.addEventListener('pointerdown', e => {
+  if (e.target.closest('.btn,.mini-btn,.tabs button,.teclado button,.pessoa,.rec-btn')) vibrar(8);
+});
+
+function carga(on) {
+  const b = $('#carga');
+  clearTimeout(carga.t);
+  if (on) { b.style.opacity = 1; b.style.width = '80%'; }
+  else {
+    b.style.width = '100%';
+    carga.t = setTimeout(() => { b.style.opacity = 0; b.style.width = 0; }, 300);
+  }
+}
+
+function festa() {
+  const c = $('#confete'), g = c.getContext('2d');
+  c.width = innerWidth;
+  c.height = innerHeight;
+  const cores = [getComputedStyle(document.documentElement).getPropertyValue('--acc').trim() || '#fff', '#facc15', '#22c55e', '#3b82f6', '#f472b6', '#ffffff'];
+  const ps = Array.from({ length: 90 }, () => ({
+    x: innerWidth / 2, y: innerHeight * 0.6,
+    vx: (Math.random() - 0.5) * 14, vy: -Math.random() * 16 - 4,
+    r: Math.random() * 6 + 3, cor: cores[Math.random() * cores.length | 0],
+    rot: Math.random() * 6, vr: (Math.random() - 0.5) * 0.4,
+  }));
+  let t = 0;
+  (function quadro() {
+    g.clearRect(0, 0, c.width, c.height);
+    ps.forEach(p => {
+      p.vy += 0.35; p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      g.save(); g.translate(p.x, p.y); g.rotate(p.rot);
+      g.fillStyle = p.cor; g.fillRect(-p.r, -p.r / 2, p.r * 2, p.r);
+      g.restore();
+    });
+    if (++t < 110) requestAnimationFrame(quadro); else g.clearRect(0, 0, c.width, c.height);
+  })();
+  vibrar([30, 40, 30]);
+}
+
+function animarSaldo() {
+  const el = $('#saldo');
+  if (!el) return;
+  const novo = Number(S.dados.saldo) || 0, ant = S.saldoAnt ?? novo;
+  S.saldoAnt = novo;
+  if (ant === novo) return;
+  el.classList.add('sobe');
+  const t0 = performance.now();
+  (function q(t) {
+    const k = Math.min(1, (t - t0) / 700);
+    el.textContent = '💰 ' + real(ant + (novo - ant) * (1 - Math.pow(1 - k, 3)));
+    if (k < 1) requestAnimationFrame(q);
+  })(t0);
+}
+
+function checarAprovadas() {
+  if (S.dados.perfil.tipo === 'admin') return;
+  const chave = 'ss_vistas_' + S.user;
+  let vistas = [];
+  try { vistas = JSON.parse(localStorage.getItem(chave)) || []; } catch (e) {}
+  const novas = S.dados.atividades.filter(a => a.status === 'aprovado' && !vistas.includes(a.id));
+  if (!novas.length) return;
+  try { localStorage.setItem(chave, JSON.stringify(vistas.concat(novas.map(a => a.id)))); } catch (e) {}
+  festa();
+  toast('🎉 Aprovado! 💰');
+}
+
+function semana() {
+  const h = S.dados.hoje, [y, m, d] = h.data.split('-').map(Number);
+  const seg = Date.UTC(y, m - 1, d) - (h.diaSemana - 1) * 864e5;
+  return `<div class="semana">${['S', 'T', 'Q', 'Q', 'S'].map((l, i) => {
+    const dt = new Date(seg + i * 864e5).toISOString().slice(0, 10);
+    const a = S.dados.atividades.find(x => x.data === dt);
+    const ic = a ? { pendente: '⏳', aprovado: '✅', negado: '❌' }[a.status] : (dt < h.data ? '▫️' : '⚪');
+    return `<div class="sem ${dt === h.data ? 'hoje' : ''}">${ic}<small>${l}</small></div>`;
+  }).join('')}</div>`;
 }
 
 function guardarSessao() {
@@ -182,6 +327,7 @@ async function iniciar() {
     try {
       S.dados = await api('entrar');
       S.aba = S.dados.perfil.tipo === 'admin' ? 'avaliar' : 'inicio';
+      S.anim = S.checar = true;
       return telaApp();
     } catch (e) {
       S.user = S.hash = null;
@@ -195,8 +341,8 @@ function telaHome() {
   S.user = S.hash = S.dados = null;
   limparSessao();
   tema(null);
-  app.innerHTML = `<h1 class="titulo">🏠 Quem é você?</h1>` + S.usuarios.map(u => `
-    <button class="pessoa" style="--c:${esc(u.cor)}" onclick="escolher('${esc(u.id)}')">
+  app.innerHTML = `<h1 class="titulo">🏠 Quem é você?</h1>` + S.usuarios.map((u, i) => `
+    <button class="pessoa" style="--c:${esc(u.cor)};--i:${i}" onclick="escolher('${esc(u.id)}')">
       ${avatar(u, 96)}
       <div class="pessoa-info"><b>${esc(u.nome)}</b><span>${u.tipo === 'admin' ? '👑' : '🧒'} ${u.configurado ? '🔒' : '🆕'}</span></div>
     </button>`).join('');
@@ -213,21 +359,42 @@ function escolher(id) {
 
 /* ===== LOGIN / PRIMEIRO ACESSO ===== */
 function grade() {
-  return `<div class="grade" id="grade">${Array.from({ length: 9 }, (_, i) => `<div class="ponto" data-i="${i}"></div>`).join('')}</div>`;
+  const erro = S.shake ? ' erro' : '';
+  S.shake = false;
+  return `<div class="grade${erro}" id="grade">${Array.from({ length: 9 }, (_, i) => `<div class="ponto" data-i="${i}"></div>`).join('')}</div>`;
 }
 
 function ligarGrade(fim) {
   const g = $('#grade');
   let seq = [], ativo = false;
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg');
+  const linha = document.createElementNS(NS, 'polyline');
+  svg.appendChild(linha);
+  g.appendChild(svg);
+  const desenhar = e => {
+    const a = g.getBoundingClientRect();
+    svg.setAttribute('viewBox', `0 0 ${a.width} ${a.height}`);
+    const pts = seq.map(i => {
+      const b = g.children[i].getBoundingClientRect();
+      return `${b.left - a.left + b.width / 2},${b.top - a.top + b.height / 2}`;
+    });
+    if (e) pts.push(`${e.clientX - a.left},${e.clientY - a.top}`);
+    linha.setAttribute('points', pts.join(' '));
+  };
   const tocar = e => {
     const el = document.elementFromPoint(e.clientX, e.clientY);
     const i = el?.dataset?.i;
-    if (i == null || seq.includes(+i)) return;
-    seq.push(+i);
-    el.classList.add('on');
+    if (i != null && !seq.includes(+i)) {
+      seq.push(+i);
+      el.classList.add('on');
+      vibrar(6);
+    }
+    desenhar(e);
   };
   g.onpointerdown = e => {
     seq = [];
+    g.classList.remove('erro');
     g.querySelectorAll('.ponto').forEach(p => p.classList.remove('on'));
     g.setPointerCapture(e.pointerId);
     ativo = true;
@@ -237,7 +404,8 @@ function ligarGrade(fim) {
   g.onpointerup = () => {
     if (!ativo) return;
     ativo = false;
-    fim(seq.slice());
+    desenhar();
+    setTimeout(() => fim(seq.slice()), 120);
   };
 }
 
@@ -280,9 +448,13 @@ async function entrar(texto) {
     S.dados = await api('entrar');
     guardarSessao();
     S.aba = S.dados.perfil.tipo === 'admin' ? 'avaliar' : 'inicio';
+    S.anim = S.checar = true;
+    S.saldoAnt = null;
     telaApp();
   } catch (e) {
     S.user = S.hash = null;
+    S.shake = true;
+    vibrar([60, 40, 60]);
     toast('❌ ' + e.message);
     telaLogin();
   }
@@ -341,6 +513,7 @@ async function atualizar() {
 
 function irAba(a) {
   S.aba = a;
+  S.anim = true;
   telaApp();
 }
 
@@ -369,17 +542,26 @@ function telaApp() {
     ? [['avaliar', '📋'], ['dados', '📊'], ['loja', '🛒']]
     : [['inicio', '🏠'], ['carteira', '👛'], ['loja', '🛒']];
   const vistas = { inicio: viewInicio, carteira: viewCarteira, loja: viewLoja, avaliar: viewAvaliar, dados: viewDados };
+  const pend = S.dados.atividades.filter(a => a.status === 'pendente').length;
+  const anim = S.anim ? 'entra' : '';
+  S.anim = false;
   app.innerHTML = `
     <header class="topo">${avatar(p, 48)}<b>${esc(p.nome)}</b>
-      ${admin ? '' : `<span class="saldo">💰 ${real(S.dados.saldo)}</span>`}
+      ${admin ? '' : `<span class="saldo" id="saldo">💰 ${real(S.saldoAnt ?? S.dados.saldo)}</span>`}
       <button class="sair" onclick="sair()">🚪</button>
     </header>
-    <main>${vistas[S.aba]()}</main>
-    <nav class="tabs">${abas.map(([k, ic]) => `<button class="${S.aba === k ? 'on' : ''}" onclick="irAba('${k}')">${ic}</button>`).join('')}</nav>`;
+    <main class="${anim}">${vistas[S.aba]()}</main>
+    <nav class="tabs">${abas.map(([k, ic]) => `<button class="${S.aba === k ? 'on' : ''}" onclick="irAba('${k}')">${ic}${admin && k === 'avaliar' && pend ? `<span class="badge">${pend}</span>` : ''}</button>`).join('')}</nav>`;
+  animarSaldo();
+  if (S.checar) { S.checar = false; checarAprovadas(); }
 }
 
 /* ----- Crianças ----- */
 function viewInicio() {
+  return semana() + viewInicioCorpo();
+}
+
+function viewInicioCorpo() {
   const h = S.dados.hoje;
   if (h.diaSemana > 5) {
     return `<div class="card centro"><div style="font-size:70px">🏖️</div><h2>Fim de semana</h2><p>Descansa! Volta na segunda 😊</p></div>`;
@@ -460,6 +642,7 @@ async function enviarAtividade() {
     await api('enviarAtividade', { descricao: f.descricao, foto: f.fotoB64, audio: f.audioB64, audioMime: f.audioMime });
     S.form = { descricao: '' };
     await atualizar();
+    festa();
     toast('✅ Enviado!');
   } catch (e) {
     toast('❌ ' + e.message);
@@ -470,7 +653,7 @@ function viewCarteira() {
   const lista = S.dados.carteira.slice().sort((a, b) => b.data.localeCompare(a.data));
   return `<div class="card centro grande"><div style="font-size:50px">👛</div><div class="valor">${real(S.dados.saldo)}</div></div>
     <div class="card">${lista.length ? lista.map(c => `
-      <div class="linha"><span>${c.valor > 0 ? '➕' : '➖'}</span><span>${real(c.valor)}</span><small>${esc(c.data)}</small></div>`).join('') : '🪙 Nada ainda'}
+      <div class="linha"><span>${c.valor > 0 ? '➕' : '➖'}</span><span class="${c.valor > 0 ? 'pos' : 'neg'}">${real(c.valor)}</span><small>${esc(c.data)}</small></div>`).join('') : '🪙 Nada ainda'}
     </div>`;
 }
 
@@ -485,6 +668,7 @@ async function comprar(id) {
   try {
     await api('comprar', { itemId: id });
     await atualizar();
+    festa();
     toast('🎉 Comprado!');
   } catch (e) {
     toast('❌ ' + e.message);
@@ -565,6 +749,7 @@ async function avaliar(id, aprovado) {
   try {
     await api('avaliar', { atividadeId: id, nota, aprovado });
     await atualizar();
+    if (aprovado) festa();
     toast(aprovado ? '✅ +R$ 1 creditado' : '❌ Negado');
   } catch (e) {
     toast('❌ ' + e.message);
@@ -583,10 +768,16 @@ function grafico(notas, ma) {
   const x = i => n < 2 ? W / 2 : P + i * (W - 2 * P) / (n - 1);
   const y = v => H - P - (v / 10) * (H - 2 * P);
   const pts = arr => arr.map((v, i) => `${x(i)},${y(v)}`).join(' ');
+  const gid = 'g' + (grafico.n = (grafico.n || 0) + 1);
+  const area = `${x(0)},${H - P} ${pts(ma)} ${x(n - 1)},${H - P}`;
   return `<svg viewBox="0 0 ${W} ${H}" class="grafico">
+    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" style="stop-color:var(--c);stop-opacity:.35"/><stop offset="1" style="stop-color:var(--c);stop-opacity:0"/>
+    </linearGradient></defs>
     <line x1="0" x2="${W}" y1="${y(5)}" y2="${y(5)}" class="guia"/>
-    <polyline class="ma" points="${pts(ma)}"/>
-    ${notas.map((v, i) => `<circle cx="${x(i)}" cy="${y(v)}" r="4"/>`).join('')}
+    <polygon points="${area}" fill="url(#${gid})"/>
+    <polyline class="ma" pathLength="1000" points="${pts(ma)}"/>
+    ${notas.map((v, i) => `<circle cx="${x(i)}" cy="${y(v)}" r="4" style="animation-delay:${i * 70}ms"/>`).join('')}
   </svg>`;
 }
 
@@ -604,12 +795,16 @@ function viewDados() {
     const media = notas.length ? notas.reduce((s, x) => s + x, 0) / notas.length : 0;
     const dias = lista.map((a, i) => {
       const seta = i === 0 ? '➖' : ma[i] > ma[i - 1] + 0.05 ? '⬆️' : ma[i] < ma[i - 1] - 0.05 ? '⬇️' : '➡️';
-      return `<div class="dia" title="${esc(a.data)}">${seta}<b>${notas[i]}</b><small>${esc(a.data.slice(8))}</small></div>`;
+      return `<div class="dia" title="${esc(a.data)}">${seta}<b class="${notas[i] >= 7 ? 'pos' : notas[i] < 5 ? 'neg' : ''}">${notas[i]}</b><small>${esc(a.data.slice(8))}</small></div>`;
     }).join('');
     return `<div class="card" style="--c:${esc(k.cor)}">
       <div class="atv-topo"><b>${esc(k.nome)}</b><span>💰 ${real(k.saldo)}</span></div>
       ${notas.length
-        ? `<p class="tend">${t.i} ${t.t} · ⭐ média ${media.toFixed(1)} · 📅 ${notas.length}</p>
+        ? `<div class="tiles">
+             <div class="tile">${t.i}<small>${t.t}</small></div>
+             <div class="tile"><b>${media.toFixed(1)}</b><small>⭐ média</small></div>
+             <div class="tile"><b>${notas.length}</b><small>📅 dias</small></div>
+           </div>
            ${grafico(notas, ma)}
            <p class="legenda">🔵 nota do dia &nbsp; 🟡 média móvel (3 dias)</p>
            <div class="dias">${dias}</div>`
